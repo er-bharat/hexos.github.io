@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hex OS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 250px 20px 280px 20px;
+      background:
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        url('source/SciFibg.png') center/cover no-repeat;
+      background-attachment: fixed;
+      clip-path: polygon(
+        20px 0, calc(100% - 20px) 0,
+        100% 20px, 100% calc(100% - 20px),
+        calc(100% - 20px) 100%, 20px 100%,
+        0 calc(100% - 20px), 0 20px
+      );
+    }
+
+    header h1 {
+      font-size: 5rem;
+      margin-bottom: 30px;
+      animation: fadeInDown 1.5s ease forwards;
+    }
+
+    header p {
+      font-size: 2.5rem;
+      margin-bottom: 50px;
+      animation: fadeInUp 1.5s ease forwards;
+    }
+
+    /* Hexagonal Button - 45-degree top/bottom slants only */
+    .download-btn {
+      display: inline-block;
+      padding: 25px 60px;
+      font-size: 2rem;
+      color: #fff;
+      background: #ff4b2b;
+      border: none;
+      text-decoration: none;
+      transition: 0.3s;
+      animation: pulse 2s infinite;
+
+      /* Hexagon with slanted top/bottom and vertical sides */
+      clip-path: polygon(
+        15% 0, 85% 0,        /* top slant */
+        100% 50%,            /* right vertical */
+        85% 100%, 15% 100%,  /* bottom slant */
+        0 50%                 /* left vertical */
+      );
+    }
+
+    .download-btn:hover {
+      transform: scale(1.1);
+      background: #ff416c;
+    }
+
+    /* Features Section */
+    section.features {
+      display: flex;
+      flex-direction: column;
+      gap: 120px;
+      padding: 100px 20px;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+
+    .feature.reverse {
+      flex-direction: row-reverse;
+    }
+
+    /* 45-degree cut corners for text, images, videos, carousel */
+    .feature-text,
+    .feature-media img,
+    .feature-media video,
+    .carousel {
+      clip-path: polygon(
+        20px 0, calc(100% - 20px) 0,
+        100% 20px, 100% calc(100% - 20px),
+        calc(100% - 20px) 100%, 20px 100%,
+        0 calc(100% - 20px), 0 20px
+      );
+      border-radius: 0;
+    }
+
+    /* Feature Text Box */
+    .feature-text {
+      flex: 1;
+      min-width: 300px;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      backdrop-filter: blur(5px);
+    }
+
+    .feature-text h2 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .feature-text p {
+      font-size: 1.5rem;
+      line-height: 1.8;
+    }
+
+    /* Feature Media */
+    .feature-media {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .feature-media img,
+    .feature-media video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    /* JS Carousel */
+    .carousel {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+    }
+
+    .carousel-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .carousel-img.active {
+      opacity: 1;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 60px 20px;
+      font-size: 1rem;
+      background: rgba(0,0,0,0.3);
+      clip-path: polygon(
+        20px 0, calc(100% - 20px) 0,
+        100% 20px, 100% calc(100% - 20px),
+        calc(100% - 20px) 100%, 20px 100%,
+        0 calc(100% - 20px), 0 20px
+      );
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-50px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(50px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1);}
+      50% { transform: scale(1.05);}
+      100% { transform: scale(1);}
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0);}
+      50% { transform: translateY(-25px);}
+      100% { transform: translateY(0);}
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header h1 { font-size: 3.5rem; }
+      header p { font-size: 2rem; }
+      .download-btn { font-size: 1.7rem; padding: 20px 50px; }
+      .feature, .feature.reverse { flex-direction: column; }
+      .feature-text h2 { font-size: 2.2rem; }
+      .feature-text p { font-size: 1.3rem; }
+      .feature-media img,
+      .feature-media video { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>Hex OS</h1>
+    <p>The Futuristic OS every human have Dreamed!</p>
+    <a href="#" class="download-btn">Download Now</a>
+  </header>
+
+  <!-- Features Section -->
+  <section class="features">
+    <!-- Feature 1: Video -->
+    <div class="feature reverse">
+      <div class="feature-text">
+        <h2>SuperFast & Futuristic</h2>
+        <p>Uses C++ and QML for superfast experience.</p>
+        <p>QML provides fluid animations that makes it feel extra fast and responsive. </p>
+        <p>Widgets provides daily features: time, weather, battery, network, powerbuttons.</p>
+        <p>Fast Search function.</p>
+        <p>Opened apps focus, close.</p>
+        <p>Two dynamic backgrounds: sciFiBg and sinBg.</p>
+        <p>OSD for Volume & Brightness.</p>
+        <p>Supports Hyprland, Labwc, and other Wayland compositors.</p>
+      </div>
+      <div class="feature-media">
+        <video src="source/hexos.webm" autoplay muted loop playsinline></video>
+      </div>
+    </div>
+
+    <!-- Feature 2: JS Carousel -->
+    <div class="feature">
+      <div class="feature-text">
+        <h2>High Quality</h2>
+        <p>Optimized for speed and responsiveness, making your workflow smoother than ever.</p>
+        <p>Boxes have slightly cut corners for a modern squared look.</p>
+      </div>
+      <div class="feature-media">
+        <div class="carousel">
+          <img src="source/SciFibg.png" class="carousel-img" alt="Feature 2 Image 1">
+          <img src="source/Sinbg.png" class="carousel-img" alt="Feature 2 Image 2">
+          <img src="source/transparent.png" class="carousel-img" alt="Feature 2 Image 3">
+          <img src="source/SDDL.png" class="carousel-img" alt="Feature 2 Image 3">
+          <img src="source/sddm theme.png" class="carousel-img" alt="Feature 2 Image 3">
+          <img src="source/brightness.png" class="carousel-img" alt="Feature 2 Image 3">
+          <img src="source/volume.png" class="carousel-img" alt="Feature 2 Image 3">
+          <img src="source/mute.png" class="carousel-img" alt="Feature 2 Image 3">
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature 3: Image -->
+    <div class="feature reverse">
+      <div class="feature-text">
+        <h2>INI Config</h2>
+        <p>Uses INI file for editing features of the shell like what compositors deploy in Linux space.</p>
+        <p>It's both easy and fast.</p>
+      </div>
+      <div class="feature-media">
+        <img src="/home/bharat/Pictures/Screenshots/apps.ini.png" alt="Feature 3">
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Hex OS. All Rights Reserved.
+  </footer>
+
+  <!-- JS Carousel Script -->
+  <script>
+    const images = document.querySelectorAll('.carousel-img');
+    let current = 0;
+
+    function showNextImage() {
+      images[current].classList.remove('active');
+      current = (current + 1) % images.length;
+      images[current].classList.add('active');
+    }
+
+    images[current].classList.add('active');
+    setInterval(showNextImage, 3000);
+  </script>
+
+</body>
+</html>
